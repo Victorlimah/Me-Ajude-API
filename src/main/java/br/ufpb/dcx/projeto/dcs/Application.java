@@ -1,4 +1,4 @@
-package br.ufpb.dcx.project.dcs;
+package br.ufpb.dcx.projeto.dcs;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
