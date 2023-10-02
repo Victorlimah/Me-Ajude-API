@@ -1,6 +1,7 @@
 package br.ufpb.dcx.projeto.dcs.db.entity;
 
 import br.ufpb.dcx.projeto.dcs.db.enums.UserType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -35,4 +36,7 @@ public class User {
     private String document;
 
     private Role role;
+
+    @JsonIgnore
+    private Boolean active = true;
 }
