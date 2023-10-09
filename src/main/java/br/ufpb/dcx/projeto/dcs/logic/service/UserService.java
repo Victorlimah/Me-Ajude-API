@@ -22,7 +22,7 @@ public class UserService {
 
     public LoginResponse login(LoginDTO loginDTO) {
         User user = userRepository.findByEmail(loginDTO.getEmail())
-                .orElseThrow(() -> new AppException(ErrorTypes.NOT_FOUND, "No exist user with this email"));
+                .orElseThrow(() -> new AppException(ErrorTypes.NOT_FOUND, "Credentials invalid"));
 
         if (!user.getPassword().equals(loginDTO.getSenha())) {
             throw new AppException(ErrorTypes.UNAUTHORIZED, "Credentials invalid");
