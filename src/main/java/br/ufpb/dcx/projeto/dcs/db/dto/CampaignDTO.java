@@ -1,16 +1,15 @@
 package br.ufpb.dcx.projeto.dcs.db.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
+import java.beans.BeanProperty;
 import java.time.LocalDate;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class CampaignDTO {
 
     private String title;

@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.Objects;
 
 @Service
@@ -23,6 +22,11 @@ public class CampaignService {
     JWTService jwtService;
 
     private static final String CAMPAIGN_NOT_FOUND = "Campaign not found";
+
+    public CampaignService(CampaignRepository campaignRepository, JWTService jwtService) {
+        this.campaignRepository = campaignRepository;
+        this.jwtService = jwtService;
+    }
 
     public Campaign save(CampaignDTO campaignDTO, String authorization) {
         this.validFields(campaignDTO);
@@ -58,6 +62,4 @@ public class CampaignService {
             throw new AppException(ErrorTypes.UNPROCESSABLE_ENTITY, "Title already exists");
         });
     }
-
-
 }

@@ -3,10 +3,7 @@ package br.ufpb.dcx.projeto.dcs.db.entity;
 import br.ufpb.dcx.projeto.dcs.db.enums.UserType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.management.relation.Role;
 
@@ -15,6 +12,7 @@ import javax.management.relation.Role;
 @NoArgsConstructor
 @Getter
 @Setter
+@Builder
 public class User {
 
     @Id
