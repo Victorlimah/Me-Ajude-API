@@ -2,7 +2,7 @@ package br.ufpb.dcx.projeto.dcs.db.entity;
 
 import jakarta.persistence.*;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class Donation {
 
@@ -12,7 +12,7 @@ public class Donation {
 
     private double amount;
 
-    private Date date = new Date();
+    private LocalDate date = LocalDate.now();
 
     @ManyToOne()
     @JoinColumn(name = "user_id")

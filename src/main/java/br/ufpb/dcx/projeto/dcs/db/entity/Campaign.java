@@ -2,11 +2,9 @@ package br.ufpb.dcx.projeto.dcs.db.entity;
 
 import br.ufpb.dcx.projeto.dcs.db.enums.StatesTypes;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -14,13 +12,14 @@ import java.util.Date;
 @NoArgsConstructor
 @Getter
 @Setter
+@Builder
 public class Campaign {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private StatesTypes state;
+    private StatesTypes state = StatesTypes.ACTIVE;
 
     @Column(length = 100, nullable = false)
     private String title;
@@ -30,8 +29,12 @@ public class Campaign {
 
     private double goal;
 
-    private Date goalDate;
+    private LocalDate deadline;
 
     private double currentAmount = 0.0;
+
+    @ManyToOne()
+    @JoinColumn(name = "user_id")
+    private User user;
 
 }
