@@ -5,6 +5,8 @@ import br.ufpb.dcx.projeto.dcs.db.dto.CampaignDTO;
 import br.ufpb.dcx.projeto.dcs.db.entity.Campaign;
 import br.ufpb.dcx.projeto.dcs.db.entity.User;
 import br.ufpb.dcx.projeto.dcs.db.enums.ErrorTypes;
+import br.ufpb.dcx.projeto.dcs.db.enums.Role;
+import br.ufpb.dcx.projeto.dcs.db.enums.StatesTypes;
 import br.ufpb.dcx.projeto.dcs.logic.repository.CampaignRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -40,6 +42,24 @@ public class CampaignService {
                 .user(user)
                 .currentAmount(0.0)
                 .build());
+    }
+
+    public Campaign delete(Long id, String authorization) {
+        User user = jwtService.validateToken(authorization);
+        Campaign campaign = campaignRepository.findById(id)
+                .orElseThrow(() -> new AppException(ErrorTypes.NOT_FOUND, CAMPAIGN_NOT_FOUND));
+
+        Boolean isOwner = campaign.getUser().getId().equals(user.getId());
+        if (!isOwner || !Role.ADMIN.equals(user.getRole())) {
+            throw new AppException(ErrorTypes.UNAUTHORIZED, "You are not authorized to delete this campaign");
+        }
+
+        if (campaign.getCurrentAmount() > 0.0) {
+            throw new AppException(ErrorTypes.UNAUTHORIZED, "This campaign already has donations");
+        }
+
+        campaign.setState(StatesTypes.INACTIVE);
+        return campaignRepository.save(campaign);
     }
 
     private void validFields(CampaignDTO campaignDTO) {
