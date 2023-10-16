@@ -16,7 +16,7 @@ public class CampaignDTO {
 
     private String description;
 
-    private double goal;
+    private Double goal;
 
     private LocalDate deadline;
 

@@ -62,6 +62,46 @@ public class CampaignService {
         return campaignRepository.save(campaign);
     }
 
+    public Campaign update(Long id, CampaignDTO campaignDTO, String authorization) {
+        User user = jwtService.validateToken(authorization);
+        Campaign campaign = campaignRepository.findById(id)
+                .orElseThrow(() -> new AppException(ErrorTypes.NOT_FOUND, CAMPAIGN_NOT_FOUND));
+
+        Boolean isOwner = campaign.getUser().getId().equals(user.getId());
+        if (!isOwner || !Role.ADMIN.equals(user.getRole())) {
+            throw new AppException(ErrorTypes.UNAUTHORIZED, "You are not authorized to update this campaign");
+        }
+
+        if(campaign.getDeadline().isAfter(LocalDate.now())){
+            throw new AppException(ErrorTypes.UNAUTHORIZED, "This campaign is already expired");
+        }
+
+        if (Objects.nonNull(campaignDTO.getTitle()) &&
+                !campaign.getTitle().equals(campaignDTO.getTitle())) {
+            campaignRepository.findByTitle(campaignDTO.getTitle()).ifPresent(campaign1 -> {
+                throw new AppException(ErrorTypes.UNPROCESSABLE_ENTITY, "Title already exists");
+            });
+            campaign.setTitle(campaignDTO.getTitle());
+        }
+
+        if(Objects.nonNull(campaignDTO.getDescription()) &&
+                !campaign.getDescription().equals(campaignDTO.getDescription())) {
+            campaign.setDescription(campaignDTO.getDescription());
+        }
+
+        if(Objects.nonNull(campaignDTO.getGoal()) &&
+                campaign.getGoal() != campaignDTO.getGoal() && campaignDTO.getGoal() > 0.0) {
+            campaign.setGoal(campaignDTO.getGoal());
+        }
+
+        if(Objects.nonNull(campaignDTO.getDeadline()) &&
+                !campaign.getDeadline().equals(campaignDTO.getDeadline()) &&
+                    campaignDTO.getDeadline().isAfter(LocalDate.now())) {
+            campaign.setDeadline(campaignDTO.getDeadline());
+        }
+        return campaignRepository.save(campaign);
+    }
+
     private void validFields(CampaignDTO campaignDTO) {
         if (Objects.isNull(campaignDTO.getTitle()) || campaignDTO.getTitle().isEmpty()) {
             throw new AppException(ErrorTypes.UNPROCESSABLE_ENTITY, "Title is required");
