@@ -21,4 +21,6 @@ public class CampaignDTO {
 
     private LocalDate deadline;
 
+    private LocalDate createdAt;
+
 }

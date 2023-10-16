@@ -36,4 +36,6 @@ public class Campaign {
     @JoinColumn(name = "user_id")
     private User user;
 
+    private LocalDate createdAt = LocalDate.now();
+
 }
