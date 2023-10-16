@@ -2,7 +2,6 @@ package br.ufpb.dcx.projeto.dcs.db.dto;
 
 import lombok.*;
 
-import java.beans.BeanProperty;
 import java.time.LocalDate;
 
 @Getter
@@ -11,6 +10,8 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Builder
 public class CampaignDTO {
+
+    private  Long id;
 
     private String title;
 
