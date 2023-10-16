@@ -1,22 +1,22 @@
-package br.ufpb.dcx.projeto.dcs.db.entity;
+package br.ufpb.dcx.projeto.dcs.db.dto;
 
-import br.ufpb.dcx.projeto.dcs.db.enums.Role;
 import br.ufpb.dcx.projeto.dcs.db.enums.UserType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
-import lombok.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Entity
-@AllArgsConstructor
-@NoArgsConstructor
+import javax.management.relation.Role;
+
 @Getter
 @Setter
-@Builder
-public class User {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+@NoArgsConstructor
+@AllArgsConstructor
+public class UserDTO {
 
     private String name;
 
