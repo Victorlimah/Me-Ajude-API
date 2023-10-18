@@ -12,6 +12,7 @@ import lombok.*;
 @Getter
 @Setter
 @Builder
+@Table(name = "users")
 public class User {
 
     @Id
@@ -32,6 +33,7 @@ public class User {
 
     private String document;
 
+    @Enumerated(EnumType.STRING)
     private Role role;
 
     @JsonIgnore

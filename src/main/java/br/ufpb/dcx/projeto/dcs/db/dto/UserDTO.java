@@ -22,7 +22,6 @@ public class UserDTO {
 
     private String number;
 
-    @Column(unique=true)
     private String email;
 
     private String password;
@@ -32,8 +31,4 @@ public class UserDTO {
 
     private String document;
 
-    private Role role;
-
-    @JsonIgnore
-    private Boolean active = true;
 }

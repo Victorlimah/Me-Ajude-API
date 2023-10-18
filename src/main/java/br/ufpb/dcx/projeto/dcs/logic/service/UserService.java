@@ -29,7 +29,7 @@ public class UserService {
         User user = userRepository.findByEmail(loginDTO.getEmail())
                 .orElseThrow(() -> new AppException(ErrorTypes.NOT_FOUND, "Credentials invalid"));
 
-        if (!user.getPassword().equals(loginDTO.getSenha())) {
+        if (!user.getPassword().equals(loginDTO.getSenha()) || user.getActive().equals(false)) {
             throw new AppException(ErrorTypes.UNAUTHORIZED, "Credentials invalid");
         }
 
@@ -47,7 +47,16 @@ public class UserService {
     public User signUp(UserDTO signUpDTO) {
         checkEmailInUse(signUpDTO.getEmail());
 
-        return userRepository.save(signUpDTO);
+        return userRepository.save(User.builder()
+            .name(signUpDTO.getName())
+            .email(signUpDTO.getEmail())
+            .password(signUpDTO.getPassword())
+            .role(Role.USER)
+            .type(signUpDTO.getType())
+            .number(signUpDTO.getNumber())
+            .document(signUpDTO.getDocument())
+            .active(true)
+            .build());
     }
 
     public User updateEmail(String token, EmailDTO emailDTO) {
