@@ -5,7 +5,6 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 @Entity
 @AllArgsConstructor
@@ -36,5 +35,7 @@ public class Campaign {
     @ManyToOne()
     @JoinColumn(name = "user_id")
     private User user;
+
+    private LocalDate createdAt = LocalDate.now();
 
 }
