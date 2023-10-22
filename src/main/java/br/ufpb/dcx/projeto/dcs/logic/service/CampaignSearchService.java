@@ -1,6 +1,5 @@
 package br.ufpb.dcx.projeto.dcs.logic.service;
 
-import br.ufpb.dcx.projeto.dcs.db.dto.CampaignDTO;
 import br.ufpb.dcx.projeto.dcs.db.entity.Campaign;
 import br.ufpb.dcx.projeto.dcs.logic.repository.CampaignRepository;
 import org.springframework.beans.factory.annotation.Autowired;

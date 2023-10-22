@@ -1,4 +1,4 @@
-package br.ufpb.dcx.projeto.dcs.logic.controller;
+package br.ufpb.dcx.projeto.dcs.controller;
 
 
 import br.ufpb.dcx.projeto.dcs.db.dto.EmailDTO;
