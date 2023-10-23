@@ -29,7 +29,7 @@ public class UserService {
         User user = userRepository.findByEmail(loginDTO.getEmail())
                 .orElseThrow(() -> new AppException(ErrorTypes.NOT_FOUND, "Credentials invalid"));
 
-        if (!user.getPassword().equals(loginDTO.getSenha()) || user.getActive().equals(false)) {
+        if (!user.getPassword().equals(loginDTO.getPassword()) || user.getActive().equals(false)) {
             throw new AppException(ErrorTypes.UNAUTHORIZED, "Credentials invalid");
         }
 
@@ -62,7 +62,7 @@ public class UserService {
     public User updateEmail(String token, EmailDTO emailDTO) {
         User user = jwtService.validateToken(token);
 
-        user.setName(emailDTO.getEmail());
+        user.setEmail(emailDTO.getEmail());
         userRepository.save(user);
         return user;
     }
@@ -88,5 +88,24 @@ public class UserService {
         userToBeDeleted.setActive(false);
         userRepository.save(userToBeDeleted);
         return userToBeDeleted;
+    }
+
+    public User reactive(String token, String email) {
+        User validatedUser = jwtService.validateToken(token);
+
+        User userToActive = userRepository.findByEmail(email)
+                .orElseThrow(() -> new AppException(ErrorTypes.NOT_FOUND, "User not found"));
+
+        if (!validatedUser.getEmail().equals(userToActive.getEmail()) && !Role.ADMIN.equals(validatedUser.getRole())) {
+            throw new AppException(ErrorTypes.UNAUTHORIZED, "Not authorized");
+        }
+
+        if(userToActive.getActive()) {
+            throw new AppException(ErrorTypes.UNAUTHORIZED, "User is already active");
+        }
+
+        userToActive.setActive(true);
+        userRepository.save(userToActive);
+        return userToActive;
     }
 }

@@ -30,4 +30,10 @@ public class UserController {
   ResponseEntity<User> deleteUser(@RequestHeader("Authorization") String token, @RequestBody EmailDTO email) {
     return new ResponseEntity<>(UserService.delete(token, email.getEmail()), HttpStatus.OK);
   }
+
+  @PatchMapping("/active")
+  ResponseEntity<User> active(@RequestHeader("Authorization") String token, @RequestBody EmailDTO emailDTO) {
+    return new ResponseEntity<>(UserService.reactive(token, emailDTO.getEmail()), HttpStatus.OK);
+  }
+
 }

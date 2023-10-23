@@ -2,6 +2,8 @@ package br.ufpb.dcx.projeto.dcs.logic.service;
 
 
 import br.ufpb.dcx.projeto.dcs.db.entity.User;
+import br.ufpb.dcx.projeto.dcs.db.enums.Role;
+import br.ufpb.dcx.projeto.dcs.db.enums.UserType;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.stereotype.Service;
@@ -28,7 +30,7 @@ public class JWTService {
                 .compact();
     }
 
-    public User validateToken(String authorization){
+    public User validateToken(String authorization) {
         if(Objects.isNull(authorization) || !authorization.startsWith("Bearer ")){
             throw new SecurityException("Not authorized");
         }
@@ -37,7 +39,22 @@ public class JWTService {
 
         try {
             JwtParser parser = Jwts.parserBuilder().setSigningKey(TOKEN_KEY).build();
-            return parser.parseClaimsJws(token).getBody().get("user", User.class);
+            Claims claims = parser.parseClaimsJws(token).getBody();
+
+            String roleString = claims.get("role", String.class);
+            Role role = Role.valueOf(roleString);
+
+            String typeString = claims.get("userType", String.class);
+            UserType type = UserType.valueOf(typeString);
+
+
+            return User.builder()
+                    .email(claims.get("sub", String.class))
+                    .name(claims.get("name", String.class))
+                    .id(claims.get("id", Long.class))
+                    .role(role)
+                    .type(type)
+                    .build();
         } catch (ExpiredJwtException | MalformedJwtException | UnsupportedJwtException | IllegalArgumentException e) {
             throw new SecurityException("Invalid or expired token");
         }
