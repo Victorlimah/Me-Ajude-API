@@ -14,7 +14,7 @@ public class Application {
 	public FilterRegistrationBean<TokenFilterJWT> filterJwt() {
 		FilterRegistrationBean<TokenFilterJWT> filterRB = new FilterRegistrationBean<TokenFilterJWT>();
 		filterRB.setFilter(new TokenFilterJWT());
-		filterRB.addUrlPatterns("/v1/api/users/*", "/v1/api/campaigns/*");
+		filterRB.addUrlPatterns("/v1/api/users/*", "/v1/api/campaigns/*", "/v1/api/donations/*");
 		return filterRB;
 	}
 

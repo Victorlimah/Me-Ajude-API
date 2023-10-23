@@ -1,5 +1,7 @@
 package br.ufpb.dcx.projeto.dcs.controller;
 
+import br.ufpb.dcx.projeto.dcs.db.dto.DonationDTO;
+import br.ufpb.dcx.projeto.dcs.db.entity.Donation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -7,6 +9,8 @@ import org.springframework.web.bind.annotation.*;
 import br.ufpb.dcx.projeto.dcs.db.dto.CampaignDTO;
 import br.ufpb.dcx.projeto.dcs.db.entity.Campaign;
 import br.ufpb.dcx.projeto.dcs.logic.service.CampaignService;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/v1/api/campaigns")
@@ -35,5 +39,13 @@ public class CampaignController {
                                                     @RequestHeader("Authorization") String authorization) {
         Campaign campaign = campaignService.update(id, campaignDTO, authorization);
         return ResponseEntity.ok(campaign);
+    }
+
+    @PostMapping("/{id}/donate")
+    public ResponseEntity<Donation> donate(@PathVariable Long id,
+                                           @RequestBody DonationDTO donate,
+                                           @RequestHeader("Authorization") String authorization) {
+        Donation donation = campaignService.donate(id, donate, authorization);
+        return ResponseEntity.ok(donation);
     }
 }

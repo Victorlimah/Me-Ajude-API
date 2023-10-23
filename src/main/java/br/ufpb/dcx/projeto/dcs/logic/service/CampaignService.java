@@ -2,12 +2,15 @@ package br.ufpb.dcx.projeto.dcs.logic.service;
 
 import br.ufpb.dcx.projeto.dcs.config.exception.AppException;
 import br.ufpb.dcx.projeto.dcs.db.dto.CampaignDTO;
+import br.ufpb.dcx.projeto.dcs.db.dto.DonationDTO;
 import br.ufpb.dcx.projeto.dcs.db.entity.Campaign;
+import br.ufpb.dcx.projeto.dcs.db.entity.Donation;
 import br.ufpb.dcx.projeto.dcs.db.entity.User;
 import br.ufpb.dcx.projeto.dcs.db.enums.ErrorTypes;
 import br.ufpb.dcx.projeto.dcs.db.enums.Role;
 import br.ufpb.dcx.projeto.dcs.db.enums.StatesTypes;
 import br.ufpb.dcx.projeto.dcs.logic.repository.CampaignRepository;
+import br.ufpb.dcx.projeto.dcs.logic.repository.DonationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +25,9 @@ public class CampaignService {
 
     @Autowired
     JWTService jwtService;
+
+    @Autowired
+    DonationRepository donationRepository;
 
     private static final String CAMPAIGN_NOT_FOUND = "Campaign not found";
 
@@ -100,6 +106,27 @@ public class CampaignService {
             campaign.setDeadline(campaignDTO.getDeadline());
         }
         return campaignRepository.save(campaign);
+    }
+
+    public Donation donate(Long campaignId, DonationDTO donate, String authorization) {
+        User donor = jwtService.validateToken(authorization);
+        Campaign campaign = campaignRepository.findById(campaignId)
+                .orElseThrow(() -> new AppException(ErrorTypes.NOT_FOUND, CAMPAIGN_NOT_FOUND));
+
+        if (donate.getAmount() <= 0) {
+            throw new AppException(ErrorTypes.UNPROCESSABLE_ENTITY, "Donation amount must be greater than 0");
+        }
+
+        Donation donation = Donation.builder()
+                .amount(donate.getAmount())
+                .user(donor)
+                .campaign(campaign)
+                .build();
+
+        campaign.setCurrentAmount(campaign.getCurrentAmount() + donate.getAmount());
+        campaignRepository.save(campaign);
+
+        return donationRepository.save(donation);
     }
 
     private void validFields(CampaignDTO campaignDTO) {
