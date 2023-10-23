@@ -2,6 +2,7 @@ package br.ufpb.dcx.projeto.dcs.filters;
 
 import java.io.IOException;
 
+import io.jsonwebtoken.security.SignatureException;
 import org.springframework.web.filter.GenericFilterBean;
 
 import io.jsonwebtoken.ExpiredJwtException;
@@ -30,7 +31,7 @@ public class TokenFilterJWT extends GenericFilterBean {
         String header = req.getHeader("Authorization");
 
         if (header == null || !header.startsWith("Bearer ")) {
-            ((HttpServletResponse) response).setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            sendErrorResponse((HttpServletResponse) response, "Authorization header missing or does not start with Bearer.");
             return;
         }
 
@@ -38,11 +39,22 @@ public class TokenFilterJWT extends GenericFilterBean {
         try {
             JwtParser parser = Jwts.parserBuilder().setSigningKey(TOKEN_KEY).build();
             parser.parseClaimsJws(token);
-        } catch (ExpiredJwtException | MalformedJwtException | UnsupportedJwtException | IllegalArgumentException | PrematureJwtException e ) {
-            ((HttpServletResponse) response).setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        } catch (ExpiredJwtException e) {
+            sendErrorResponse((HttpServletResponse) response, "Token has expired.");
+            return;
+        } catch (MalformedJwtException | UnsupportedJwtException | IllegalArgumentException | PrematureJwtException |
+                 SignatureException e) {
+            sendErrorResponse((HttpServletResponse) response, "Invalid token.");
             return;
         }
 
         chain.doFilter(request, response);
     }
+
+    private void sendErrorResponse(HttpServletResponse response, String errorMessage) throws IOException {
+        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        response.setContentType("application/json");
+        response.getWriter().write("{\"error\": \"" + errorMessage + "\"}");
+    }
+
 }
