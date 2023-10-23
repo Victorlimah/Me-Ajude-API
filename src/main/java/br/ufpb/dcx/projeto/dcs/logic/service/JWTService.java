@@ -25,6 +25,8 @@ public class JWTService {
                 .claim("id", user.getId())
                 .claim("role", user.getRole())
                 .claim("userType", user.getType())
+                .claim("number", user.getNumber())
+                .claim("document", user.getDocument())
                 .signWith(TOKEN_KEY, SignatureAlgorithm.HS512)
                 .setExpiration(new Date(System.currentTimeMillis() + 30 * 60 * 1000)) // 30 minutes
                 .compact();
@@ -52,6 +54,8 @@ public class JWTService {
                     .email(claims.get("sub", String.class))
                     .name(claims.get("name", String.class))
                     .id(claims.get("id", Long.class))
+                    .number(claims.get("number", String.class))
+                    .document(claims.get("document", String.class))
                     .role(role)
                     .type(type)
                     .build();

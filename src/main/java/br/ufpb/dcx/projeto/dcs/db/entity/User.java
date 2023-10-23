@@ -26,13 +26,16 @@ public class User {
     @Column(unique=true)
     private String email;
 
+    @JsonIgnore
     private String password;
 
+    @JsonIgnore
     @Enumerated(EnumType.STRING)
     private UserType type;
 
     private String document;
 
+    @JsonIgnore
     @Enumerated(EnumType.STRING)
     private Role role;
 

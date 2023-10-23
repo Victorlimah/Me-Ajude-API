@@ -18,6 +18,8 @@ public class Campaign {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Builder.Default
+    @Enumerated(EnumType.STRING)
     private StatesTypes state = StatesTypes.ACTIVE;
 
     @Column(length = 100, nullable = false)
@@ -30,12 +32,14 @@ public class Campaign {
 
     private LocalDate deadline;
 
+    @Builder.Default
     private double currentAmount = 0.0;
 
     @ManyToOne()
     @JoinColumn(name = "user_id")
     private User user;
 
+    @Builder.Default
     private LocalDate createdAt = LocalDate.now();
 
 }

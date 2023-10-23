@@ -46,7 +46,6 @@ public class CampaignService {
                 .goal(campaignDTO.getGoal())
                 .deadline(campaignDTO.getDeadline())
                 .user(user)
-                .currentAmount(0.0)
                 .build());
     }
 
