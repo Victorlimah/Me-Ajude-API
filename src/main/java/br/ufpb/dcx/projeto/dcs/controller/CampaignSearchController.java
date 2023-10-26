@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/search/campaigns")
+@RequestMapping("/v1/api/search/campaigns")
 public class CampaignSearchController {
 
     @Autowired
