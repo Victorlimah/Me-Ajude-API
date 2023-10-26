@@ -55,7 +55,7 @@ public class CampaignService {
                 .orElseThrow(() -> new AppException(ErrorTypes.NOT_FOUND, CAMPAIGN_NOT_FOUND));
 
         Boolean isOwner = campaign.getUser().getId().equals(user.getId());
-        if (!isOwner || !Role.ADMIN.equals(user.getRole())) {
+        if (!isOwner && !Role.ADMIN.equals(user.getRole())) {
             throw new AppException(ErrorTypes.UNAUTHORIZED, "You are not authorized to delete this campaign");
         }
 
