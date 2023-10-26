@@ -1,5 +1,6 @@
-package br.ufpb.dcx.projeto.dcs.config.exception;
+package br.ufpb.dcx.projeto.dcs.config;
 
+import br.ufpb.dcx.projeto.dcs.config.AppException;
 import br.ufpb.dcx.projeto.dcs.db.dto.ErrorDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -1,6 +1,6 @@
 package br.ufpb.dcx.projeto.dcs.logic.service;
 
-import br.ufpb.dcx.projeto.dcs.config.exception.AppException;
+import br.ufpb.dcx.projeto.dcs.config.AppException;
 import br.ufpb.dcx.projeto.dcs.db.dto.CampaignDTO;
 import br.ufpb.dcx.projeto.dcs.db.dto.DonationDTO;
 import br.ufpb.dcx.projeto.dcs.db.entity.Campaign;
