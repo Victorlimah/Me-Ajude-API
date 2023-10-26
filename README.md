@@ -26,5 +26,6 @@ Muitas pessoas tem interesse em fazer doações, mas às vezes não tem o tempo 
 
 - **Vídeo Demonstrativo**: [Clique aqui para assistir](https://youtu.be/meZetuJbuyg).
 - **Documentação da API**: Inciando a aplicação, podemos ir até http://localhost:8080/swagger-ui/index.html
+- **Base URL (Deploy): https://projeto-dsc-production.up.railway.app
 
 
