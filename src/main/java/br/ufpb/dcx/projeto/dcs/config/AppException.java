@@ -1,4 +1,4 @@
-package br.ufpb.dcx.projeto.dcs.config.exception;
+package br.ufpb.dcx.projeto.dcs.config;
 
 import br.ufpb.dcx.projeto.dcs.db.enums.ErrorTypes;
 import lombok.Getter;
